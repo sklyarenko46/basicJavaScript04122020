@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.min.css">
     <title>BasicJS</title>
 </head>
 <body>
+    <div class="content-wrapper">
+        <h1 class="header">Домашнее задание к уроку №1.  Основы языка JavaScript </h1>
+        <section class="decision">
+            <h2 class="hint">Нажмите на кнопку что бы увидеть решение задачи</h2>
+            <div class="tasks">
+                <div class="task">
+                    <button class="task-button" onclick="temperatureConverter()">Задание №1</button>
+                    <p class="task-description">Задать температуру в градусах по Цельсию. Вывести в alert соответствующую температуру в градусах по Фаренгейту. Подсказка! расчёт идёт по формуле: Tf = (9 / 5) * Tc + 32, где Tf – температура по Фаренгейту, Tc – температура по Цельсию</p>
+                </div>
+                <div class="task">
+                    <button class="task-button" onclick="setAdminName()">Задание №2</button>
+                    <p class="task-description">Объявить две переменные: admin и name. Записать в name строку "Василий"; Скопировать значение из name в admin. Вывести admin (должно вывести «Василий»).</p>
+                </div>
+                <div class="task">
+                    <button class="task-button" onclick="whatIsExpressionEqualTo()">Задание №3</button>
+                    <p class="task-description">Чему будет равно JS-выражение 1000 + "108"?</p>
+                </div>
+                <div class="task">
+                    <button class="task-button" onclick="scriptAttributes()">Задание №4</button>
+                    <p class="task-description">Самостоятельно разобраться с атрибутами тега script (async и defer)</p>
+                </div>
+            </div>
+        </section>
+    </div>
+   
     <script src="/js/script.js"></script>
 </body>
 </html>

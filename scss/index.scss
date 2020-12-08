@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import "__normalize.scss";
+@import "__standart.scss";  
+
+body
+{
+    font-family: 'Lato', sans-serif;
+}
+.content-wrapper {
+    width: 1400px;
+    margin: 0 auto;
+}
+.header {
+    text-align: center;
+    padding: 40px;
+}
+.decision {
+   width: inherit;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   .hint {
+        padding: 40px;
+   }
+}
+.tasks {
+    width: inherit;
+    display: flex; 
+    justify-content: space-between;
+    .task {
+        width: 250px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .task-button {
+            width: 200px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border: 1px solid grey;
+            background-color: whitesmoke;
+            border-radius: 10px;
+            color: gray;
+            transition: 0.4s;
+            font-size: 22px;
+            &:hover {
+                cursor: pointer;
+                border: 1px solid whitesmoke;
+                color: whitesmoke;
+                background-color: grey;
+            }
+        }
+        .task-description {
+            padding-top: 20px;
+            line-height: 30px;
+            color: grey;
+        }
+    }
+   
+}
