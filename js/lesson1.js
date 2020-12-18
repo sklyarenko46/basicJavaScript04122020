@@ -1,4 +1,4 @@
-function temperatureConverter()
+function lesson1Task1()
 {
     let temperatureF = enterTemperatureF('');
     while(isNaN(temperatureF))
@@ -13,7 +13,7 @@ function enterTemperatureF(additionalMsg)
     return +prompt(additionalMsg + 'Введите температуру в градусах по Фаренгейту: ');
 }
 
-function setAdminName()
+function lesson1Task2()
 {
     let admin;
     const name = 'Василий';
@@ -21,12 +21,13 @@ function setAdminName()
     alert( 'А вы знали что администратора зовут ' + admin + '?')
 }
 
-function whatIsExpressionEqualTo()
+function lesson1Task3()
 {
-    alert( 'JS-выражение 1000 + "108" = ' + 1000 + "108")
+    let result = 1000 + '108';
+    alert('JS-выражение 1000 + "108" = ' + result);
 }
 
-function scriptAttributes()
+function lesson1Task4()
 {
-    alert('Почитала, даже почти поняла, но ваше объяснение будет не лишним :)')
+    alert('Окей! Почитала)');
 }
