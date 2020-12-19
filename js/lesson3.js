@@ -1,9 +1,9 @@
 function lesson3Task1()
 {
     // через while не удобно!
-    alert(usingWhile());
+    console.log('используя while: ' + usingWhile());
     // лучше через for....
-    alert(usingWhile());
+    console.log('используя for:   ' + usingFor());
 }
 
 function usingWhile()
@@ -37,7 +37,7 @@ function usingFor()
     for (let i = 2; i <= 100; i++)
         if(isSimpleUsingFor(i))
             result += i + ', ';
-    alert(result.substring(0, result.length -2));
+    return result.substring(0, result.length -2);
 }
 
 function isSimpleUsingFor(number)
