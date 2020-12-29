@@ -21,24 +21,24 @@
         }
         function getProduct()
         {
-            return product;
+            return { 
+                name: '', 
+                cost: 0,
+                count: 0,
+                create(name, cost, count)
+                {
+                    this.name = name;
+                    this.cost = cost;
+                    this.count = count;
+                    return this;
+                },
+                total()
+                {
+                    return this.cost * this.count;
+                }
+            };
         }
-        const product = { 
-            name: '', 
-            cost: 0,
-            count: 0,
-            create(name, cost, count)
-            {
-                this.name = name;
-                this.cost = cost;
-                this.count = count;
-                return this;
-            },
-            total()
-            {
-                return this.cost * this.count;
-            }
-        };
+        
         const cart = {
             products: [],
             add()
