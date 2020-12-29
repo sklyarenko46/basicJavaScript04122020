@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/chess.min.css">
+</head>
+<body>
+    <div class="centring-content">
+    </div>
+    <script>
+        const chessBoard = createDiv('chessBoard');
+        const chessCell = createDiv('chessCell');
+        const chessValue = createDiv('chessValue');
+        chessCell.appendChild(chessValue);
+        const numbering = {
+            numbers: [1,2,3,4,5,6,7,8],
+            chars: ['A', 'A', 'B', 'B', 'C', 'C','D','D', 'E', 'E', 'F', 'F', 'G', 'G', 'H','H'],
+            currentNumber: 0,
+            currentChar: 0,
+            nextNumber() {
+                const next = this.numbers[this.currentNumber];
+                if(this.currentNumber === this.numbers.length - 1)
+                    this.currentNumber = 0;
+                else 
+                    this.currentNumber++;
+                return next;
+            },
+            nextChar() {
+                const next = this.chars[this.currentChar];
+                if(this.currentChar === this.chars.length - 1)
+                    this.currentChar = 0;
+                else 
+                    this.currentChar++;
+                return next;
+            }
+        }
+        let row = 0;
+        let cellCounter = 0;
+        for(let i = 1; i <= 100; i++)
+        {
+            chessCell.className = 'chessCell';
+            if(i === 1 || i === 10 || i === 91 || i === 100)
+            {
+                chessValue.textContent = '*';
+                chessCell.className += ' numberingCell';
+                chessBoard.appendChild(chessCell.cloneNode(true));
+                continue;
+            }    
+            if((i > 1 && i < 10) || (i > 91 && i < 100))
+            {
+                chessValue.textContent = numbering.nextNumber();
+                chessCell.className += ' numberingCell';
+                chessBoard.appendChild(chessCell.cloneNode(true));
+                continue;
+            }    
+            if(i % 10 == 0 || (i-1) % 10 == 0)
+            {
+                chessValue.textContent = numbering.nextChar();
+                chessCell.className += ' numberingCell';
+                chessBoard.appendChild(chessCell.cloneNode(true));
+                continue;
+            }
+            console.log(i);
+            chessValue.textContent = '';
+            if(cellCounter === 8)
+            {
+                cellCounter = 0;
+                row++;
+            }
+            if(row % 2 === 0)
+            {
+                if(i % 2 === 0 )
+                    chessCell.className += ' blackCell';
+                else
+                    chessCell.className += ' whiteCell';
+                cellCounter++;
+            }
+            else 
+            {
+                if(i % 2 === 0 )
+                    chessCell.className += ' whiteCell';
+                else
+                    chessCell.className += ' blackCell';
+                cellCounter++;
+            }
+            
+            chessBoard.appendChild(chessCell.cloneNode(true));
+        }
+        document.querySelector('.centring-content').appendChild(chessBoard);
+        
+        function createDiv(name)
+        {
+            const div = document.createElement('div');
+            div.className = name;
+            return div;
+        }
+    </script>
+</body>
+</html>

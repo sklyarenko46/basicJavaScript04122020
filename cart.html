@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <div class="centring-content">
+        <p class="title">КОРЗИНА</p>
+        <button onclick="getCart().add()">добавить</button>
+        <button onclick="getCart().remove()">удалить</button>
+        <button onclick="getCart().clear()">отчистить</button>
+        <p class="result">корзина пуста</p>
+    </div>
+    <script>
+        function getCart()
+        {
+            return cart;
+        }
+        function getProduct()
+        {
+            return product;
+        }
+        const product = { 
+            name: '', 
+            cost: 0,
+            count: 0,
+            create(name, cost, count)
+            {
+                this.name = name;
+                this.cost = cost;
+                this.count = count;
+                return this;
+            },
+            total()
+            {
+                return this.cost * this.count;
+            }
+        };
+        const cart = {
+            products: [],
+            add()
+            {
+                const product = getProduct().create('any product', Math.floor(Math.random() * 10 + 1),  Math.floor(Math.random() * 10 + 1));
+                this.products.push(product); 
+                document.querySelector('.title').appendChild(printProduct(product));
+                printResult(this);
+            },
+            remove()
+            {
+                this.products.splice(0, 1);
+                document.querySelector('.centring-content div:first-child').remove();
+                printResult(this);
+            },
+            clear()
+            {
+                this.products = [];
+                document.querySelectorAll('.centring-content div').forEach((element) =>{element.remove()});
+                printResult(this);
+            }, 
+            calculateCost() 
+            {
+                let cost = 0;
+                this.products.forEach((element) => {
+                    cost += element.total();
+                });
+                return cost;
+            },
+            calculateCount() 
+            {
+                let count = 0;
+                this.products.forEach((element) => {
+                    count += element.count;
+                });
+                return count;
+            }
+        }
+        function printProduct(product)
+        {
+            const div = document.createElement('div');
+            div.textContent = ' продукт: ' + product.name + ' цена: ' + product.cost + ' кол-во: ' + product.count
+            return div;
+        }
+
+        function printResult(cart)
+        {
+            document.querySelector('.result').textContent = 
+            cart.products.length === 0 ? 'В корзине пусто' : 
+            'В корзине: '+ cart.calculateCount() + ' товаров на сумму ' + cart.calculateCost() + ' рублей';
+        }
+
+    </script>
+</body>
+</html>
