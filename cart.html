@@ -8,58 +8,95 @@
 </head>
 <body>
     <div class="centring-content">
-        <p class="title">КОРЗИНА</p>
-        <button onclick="getCart().add()">добавить</button>
-        <button onclick="getCart().remove()">удалить</button>
-        <button onclick="getCart().clear()">отчистить</button>
-        <p class="result">корзина пуста</p>
+        <section class="productBlock">
+            <h2 class="cart-title">ПРОДУКТЫ</h2>
+            <div class="productList"></div>
+        </section>
+        <section class="cart-block">
+            <h2 class="cart-title">КОРЗИНА</h2>
+            <div class="cart-buttons">
+                <button class="add-product-button">добавить</button>
+                <button class="clear-cart-button">отчистить</button>
+            </div>
+            <div class="cart-content">
+               <h2>Итого: <span class="result">В корзине пусто</span></h2>
+            </div>
+        </section>
+      
     </div>
     <script>
-        function getCart()
-        {
-            return cart;
-        }
-        function getProduct()
-        {
-            return { 
-                name: '', 
-                cost: 0,
-                count: 0,
-                create(name, cost, count)
-                {
-                    this.name = name;
-                    this.cost = cost;
-                    this.count = count;
-                    return this;
-                },
-                total()
-                {
-                    return this.cost * this.count;
-                }
-            };
-        }
+       "use strict";
         
-        const cart = {
+        const cart =
+        {
             products: [],
-            add()
+            cartContent: document.querySelector('.cart-content'),
+            result: document.querySelector('.result'),
+            addProductButton: document.querySelector('.add-product-button'),
+            clearCartButton: document.querySelector('.clear-cart-button'),
+            init()
             {
-                const product = getProduct().create('any product', Math.floor(Math.random() * 10 + 1),  Math.floor(Math.random() * 10 + 1));
-                this.products.push(product); 
-                document.querySelector('.title').appendChild(printProduct(product));
-                printResult(this);
+                this.addClick(this.addProductButton, this.add, []);
+                this.addClick(this.clearCartButton, this.clear, []);
+                const productList = document.querySelector('.productList');
+                let productBLock;
+                let product;
+                for(let i = 0; i < 5; i++)
+                {
+                    productBLock = document.createElement('div');
+                    product = creteNewProduct().setRandomValues();
+                    const buyButton = document.createElement('button');
+                    buyButton.className = 'buy-product-button';
+                    buyButton.textContent = 'купить';
+                    this.addClick(buyButton, this.add, [product]);
+                    productBLock.appendChild(this.getProductInfo(product));
+                    productBLock.appendChild(buyButton);
+                    productList.appendChild(productBLock);
+                }
+                  
             },
-            remove()
+            addClick(target, fun, args)
             {
-                this.products.splice(0, 1);
-                document.querySelector('.centring-content div:first-child').remove();
-                printResult(this);
+                target.addEventListener('click', fun.bind(this, ...args));
+                target.addEventListener('click', this.redrawResult.bind(this));
+            },
+            add(product)
+            {
+                this.products.push(product); 
+                const productBlock = document.createElement('div');
+                productBlock.className = 'product';
+                const removeButton = document.createElement('button');
+                removeButton.className = 'remove-product-button';
+                removeButton.textContent = 'удалить';
+                this.addClick(removeButton, this.remove, [product, productBlock]);
+                productBlock.appendChild(this.getProductInfo(product));
+                productBlock.appendChild(removeButton);
+                this.cartContent.appendChild(productBlock);
+            },
+            getProductInfo(product)
+            {
+                const info = document.createElement('span');
+                info.textContent = ' продукт: ' + product.name + ' цена: ' + product.cost + ' кол-во: ' + product.count;
+                return info;
+            },
+            remove(product, productBlock)
+            {
+                this.products.splice(this.products.indexOf(product), 1);
+                this.cartContent.removeChild(productBlock);
             },
             clear()
             {
                 this.products = [];
-                document.querySelectorAll('.centring-content div').forEach((element) =>{element.remove()});
-                printResult(this);
+                document.querySelectorAll('.product').forEach((element) => {
+                   element.remove();
+                });
             }, 
+            redrawResult()
+            {
+                document.querySelector('.result').textContent = 
+                this.products.length === 0 ? 'В корзине пусто' : 
+                'В корзине: '+ this.calculateCount() + ' товаров на сумму ' + this.calculateCost() + ' руб.';
+            },
             calculateCost() 
             {
                 let cost = 0;
@@ -77,20 +114,32 @@
                 return count;
             }
         }
-        function printProduct(product)
-        {
-            const div = document.createElement('div');
-            div.textContent = ' продукт: ' + product.name + ' цена: ' + product.cost + ' кол-во: ' + product.count
-            return div;
-        }
 
-        function printResult(cart)
+        function creteNewProduct()
         {
-            document.querySelector('.result').textContent = 
-            cart.products.length === 0 ? 'В корзине пусто' : 
-            'В корзине: '+ cart.calculateCount() + ' товаров на сумму ' + cart.calculateCost() + ' рублей';
+            return { 
+                name: '', 
+                cost: 0,
+                count: 0,
+                setRandomValues()
+                {
+                    this.name = 'any product' + this.randomNumer(100);
+                    this.cost = this.randomNumer(9999);
+                    this.count = this.randomNumer(5);
+                    return this;
+                },
+                total()
+                {
+                    return this.cost * this.count;
+                },
+                randomNumer(range)
+                {
+                    return Math.floor(Math.random() * range + 1);
+                }
+            };
         }
-
+       
+        cart.init();
     </script>
 </body>
 </html>
