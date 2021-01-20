@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <div class="centring-content">
+        <section class="productBlock">
+            <h2 class="cart-title">ПРОДУКТЫ</h2>
+            <div class="productList"></div>
+        </section>
+        <section class="cart-block">
+            <h2 class="cart-title">КОРЗИНА</h2>
+            <div class="cart-buttons">
+                <button class="add-product-button">добавить</button>
+                <button class="clear-cart-button">отчистить</button>
+            </div>
+            <div class="cart-content">
+               <h2>Итого: <span class="result">В корзине пусто</span></h2>
+            </div>
+        </section>
+      
+    </div>
+    <script>
+       "use strict";
+        
+        const cart =
+        {
+            products: [],
+            cartContent: document.querySelector('.cart-content'),
+            result: document.querySelector('.result'),
+            addProductButton: document.querySelector('.add-product-button'),
+            clearCartButton: document.querySelector('.clear-cart-button'),
+            init()
+            {
+                this.addClick(this.addProductButton, this.add, []);
+                this.addClick(this.clearCartButton, this.clear, []);
+                const productList = document.querySelector('.productList');
+                let productBLock;
+                let product;
+                for(let i = 0; i < 5; i++)
+                {
+                    productBLock = document.createElement('div');
+                    product = creteNewProduct().setRandomValues();
+                    const buyButton = document.createElement('button');
+                    buyButton.className = 'buy-product-button';
+                    buyButton.textContent = 'купить';
+                    this.addClick(buyButton, this.add, [product]);
+                    productBLock.appendChild(this.getProductInfo(product));
+                    productBLock.appendChild(buyButton);
+                    productList.appendChild(productBLock);
+                }
+                  
+            },
+            addClick(target, fun, args)
+            {
+                target.addEventListener('click', fun.bind(this, ...args));
+                target.addEventListener('click', this.redrawResult.bind(this));
+            },
+            add(product)
+            {
+                this.products.push(product); 
+                const productBlock = document.createElement('div');
+                productBlock.className = 'product';
+                const removeButton = document.createElement('button');
+                removeButton.className = 'remove-product-button';
+                removeButton.textContent = 'удалить';
+                this.addClick(removeButton, this.remove, [product, productBlock]);
+                productBlock.appendChild(this.getProductInfo(product));
+                productBlock.appendChild(removeButton);
+                this.cartContent.appendChild(productBlock);
+            },
+            getProductInfo(product)
+            {
+                const info = document.createElement('span');
+                info.textContent = ' продукт: ' + product.name + ' цена: ' + product.cost + ' кол-во: ' + product.count;
+                return info;
+            },
+            remove(product, productBlock)
+            {
+                this.products.splice(this.products.indexOf(product), 1);
+                this.cartContent.removeChild(productBlock);
+            },
+            clear()
+            {
+                this.products = [];
+                document.querySelectorAll('.product').forEach((element) => {
+                   element.remove();
+                });
+            }, 
+            redrawResult()
+            {
+                document.querySelector('.result').textContent = 
+                this.products.length === 0 ? 'В корзине пусто' : 
+                'В корзине: '+ this.calculateCount() + ' товаров на сумму ' + this.calculateCost() + ' руб.';
+            },
+            calculateCost() 
+            {
+                let cost = 0;
+                this.products.forEach((element) => {
+                    cost += element.total();
+                });
+                return cost;
+            },
+            calculateCount() 
+            {
+                let count = 0;
+                this.products.forEach((element) => {
+                    count += element.count;
+                });
+                return count;
+            }
+        }
+
+        function creteNewProduct()
+        {
+            return { 
+                name: '', 
+                cost: 0,
+                count: 0,
+                setRandomValues()
+                {
+                    this.name = 'any product' + this.randomNumer(100);
+                    this.cost = this.randomNumer(9999);
+                    this.count = this.randomNumer(5);
+                    return this;
+                },
+                total()
+                {
+                    return this.cost * this.count;
+                },
+                randomNumer(range)
+                {
+                    return Math.floor(Math.random() * range + 1);
+                }
+            };
+        }
+       
+        cart.init();
+    </script>
+</body>
+</html>
